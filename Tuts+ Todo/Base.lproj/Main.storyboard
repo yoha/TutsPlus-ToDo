@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UgB-d0-28e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UgB-d0-28e">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -34,7 +34,13 @@
                             <constraint firstAttribute="trailing" secondItem="JTD-HM-ja2" secondAttribute="trailing" id="Q9h-SA-DoN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="sRU-Ws-U0Q"/>
+                    <navigationItem key="navigationItem" id="sRU-Ws-U0Q">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="udL-kq-EOc">
+                            <connections>
+                                <segue destination="c2c-9g-S2A" kind="presentation" id="pOD-Pf-xmc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="JTD-HM-ja2" id="aAY-SP-9JF"/>
                     </connections>
@@ -42,6 +48,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1240" y="429"/>
+        </scene>
+        <!--Add Item View Controller-->
+        <scene sceneID="Bdk-jA-fam">
+            <objects>
+                <viewController id="C2s-PZ-c2f" customClass="AddItemViewController" customModule="Tuts__Todo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eYG-jQ-8s0"/>
+                        <viewControllerLayoutGuide type="bottom" id="xi6-oN-hLQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WSa-qi-nFI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1NU-Dm-9Na">
+                                <rect key="frame" x="258" y="161" width="84" height="30"/>
+                                <state key="normal" title="Create Todo"/>
+                                <connections>
+                                    <action selector="createButtonDidTouch:" destination="C2s-PZ-c2f" eventType="touchUpInside" id="2h2-06-H4g"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7p5-17-gpr">
+                                <rect key="frame" x="20" y="123" width="560" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="7p5-17-gpr" firstAttribute="top" secondItem="eYG-jQ-8s0" secondAttribute="bottom" constant="59" id="8be-UI-BNp"/>
+                            <constraint firstAttribute="trailing" secondItem="7p5-17-gpr" secondAttribute="trailing" constant="20" id="NI8-lf-L1K"/>
+                            <constraint firstItem="7p5-17-gpr" firstAttribute="leading" secondItem="WSa-qi-nFI" secondAttribute="leading" constant="20" id="mKO-8J-c0f"/>
+                            <constraint firstItem="1NU-Dm-9Na" firstAttribute="top" secondItem="7p5-17-gpr" secondAttribute="bottom" constant="8" id="n3j-c2-Sby"/>
+                            <constraint firstItem="1NU-Dm-9Na" firstAttribute="centerX" secondItem="WSa-qi-nFI" secondAttribute="centerX" id="sXX-yK-3Lj"/>
+                            <constraint firstItem="7p5-17-gpr" firstAttribute="centerX" secondItem="WSa-qi-nFI" secondAttribute="centerX" id="sj8-RH-LFf"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="c1F-vy-i0I">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="YQL-As-6iC">
+                            <connections>
+                                <action selector="cancelButtonDidTouch:" destination="C2s-PZ-c2f" id="gPi-rd-Rob"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textField" destination="7p5-17-gpr" id="7cY-Pp-DNb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UJV-fx-Aqf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2807" y="429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vf5-h1-JlI">
@@ -60,6 +116,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Hl-vb-02Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="428" y="429"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qab-rd-PuN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="c2c-9g-S2A" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EXS-if-F9E">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="C2s-PZ-c2f" kind="relationship" relationship="rootViewController" id="jgx-51-DfY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fef-1j-9LG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1995" y="429"/>
         </scene>
     </scenes>
 </document>
