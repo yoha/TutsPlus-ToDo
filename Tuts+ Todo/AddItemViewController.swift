@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol AddItemViewControllerDelegate {
+    func controller(controller: AddItemViewController, didAddItem withItem: String)
+}
+
 class AddItemViewController: UIViewController {
+    
+    // MARK: - Stored Properties
+    
+    var delegate: AddItemViewControllerDelegate?
 
     // MARK: - IBOutlet Properties
     
@@ -17,11 +25,12 @@ class AddItemViewController: UIViewController {
     // MARK: - IBAction Methods
     
     @IBAction func cancelButtonDidTouch(sender: UIBarButtonItem) {
-        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func createButtonDidTouch(sender: UIButton) {
-        
+        guard let validDelegate = self.delegate, let validText = self.textField.text else { return }
+        validDelegate.controller(self, didAddItem: validText)
     }
     
     // MARK: - UIViewController Methods

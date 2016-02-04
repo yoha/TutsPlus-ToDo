@@ -37,7 +37,7 @@
                     <navigationItem key="navigationItem" id="sRU-Ws-U0Q">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="udL-kq-EOc">
                             <connections>
-                                <segue destination="c2c-9g-S2A" kind="presentation" id="pOD-Pf-xmc"/>
+                                <segue destination="c2c-9g-S2A" kind="presentation" identifier="AddItemViewControllerSegue" id="pOD-Pf-xmc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
