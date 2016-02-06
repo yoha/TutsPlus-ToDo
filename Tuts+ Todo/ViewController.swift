@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - Stored Properties
     
     var items = [String]()
+    var checkedItems: [String] = []
     
     let tableViewCellIdentifier = "TableViewCellIdentifier"
     let addItemViewControllerSegue = "AddItemViewControllerSegue"
@@ -30,6 +31,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(self.tableViewCellIdentifier, forIndexPath: indexPath)
         cell.textLabel?.text = self.items[indexPath.row]
+        cell.accessoryType = self.checkedItems.contains(self.items[indexPath.row]) ? UITableViewCellAccessoryType.Checkmark : .None
         return cell
     }
     
@@ -45,6 +47,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     // MARK: - UITableViewDelegateMethods
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let validTableViewCellAtIndexPath = tableView.cellForRowAtIndexPath(indexPath) else { return }
+        if let validIndexForItemInCheckedItems = self.checkedItems.indexOf(self.items[indexPath.row]) {
+            self.checkedItems.removeAtIndex(validIndexForItemInCheckedItems)
+            validTableViewCellAtIndexPath.accessoryType = UITableViewCellAccessoryType.None
+        }
+        else {
+            self.checkedItems.append(self.items[indexPath.row])
+            validTableViewCellAtIndexPath.accessoryType = .Checkmark
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
     
     // MARK: - UIViewController Methods
     
