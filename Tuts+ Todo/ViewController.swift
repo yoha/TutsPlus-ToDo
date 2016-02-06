@@ -12,7 +12,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Stored Properties
     
-    var items = [String]()
+    var items = [String]() {
+        didSet {
+            let hasTodo = items.count > 0
+            self.tableView.hidden = !hasTodo
+            self.messageLabel.hidden = hasTodo
+        }
+    }
     var checkedItems: [String] = []
     
     let tableViewCellIdentifier = "TableViewCellIdentifier"
@@ -23,6 +29,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - IBOutlet Properties
     
     @IBOutlet var tableView: UITableView!
+    
+    @IBOutlet var messageLabel: UILabel!
     
     // MARK: - UITableViewDataSource Methods
     
