@@ -12,6 +12,8 @@
 		6517B9931C6107BD00748B2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6517B9911C6107BD00748B2C /* Main.storyboard */; };
 		6517B9951C6107BD00748B2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6517B9941C6107BD00748B2C /* Assets.xcassets */; };
 		6517B9981C6107BD00748B2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6517B9961C6107BD00748B2C /* LaunchScreen.storyboard */; };
+		655136741C69AE060000DD08 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655136731C69AE060000DD08 /* Task.swift */; };
+		655136761C69B3FB0000DD08 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655136751C69B3FB0000DD08 /* Todo.swift */; };
 		65AEFA6E1C636C3000596B7D /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AEFA6D1C636C3000596B7D /* AddItemViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,8 @@
 		6517B9941C6107BD00748B2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6517B9971C6107BD00748B2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6517B9991C6107BD00748B2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		655136731C69AE060000DD08 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		655136751C69B3FB0000DD08 /* Todo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		65AEFA6D1C636C3000596B7D /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,6 +63,8 @@
 				6517B98D1C6107BD00748B2C /* AppDelegate.swift */,
 				6517B98F1C6107BD00748B2C /* ViewController.swift */,
 				65AEFA6D1C636C3000596B7D /* AddItemViewController.swift */,
+				655136731C69AE060000DD08 /* Task.swift */,
+				655136751C69B3FB0000DD08 /* Todo.swift */,
 				6517B9911C6107BD00748B2C /* Main.storyboard */,
 				6517B9941C6107BD00748B2C /* Assets.xcassets */,
 				6517B9961C6107BD00748B2C /* LaunchScreen.storyboard */,
@@ -77,6 +83,7 @@
 				6517B9861C6107BD00748B2C /* Sources */,
 				6517B9871C6107BD00748B2C /* Frameworks */,
 				6517B9881C6107BD00748B2C /* Resources */,
+				655136721C69AB970000DD08 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -134,14 +141,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		655136721C69AB970000DD08 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\nERRORTAG=\"ERROR:\"\nfind \"${SRCROOT}\" \\( -name \"*.h\" -or -name \"*.m\" -or -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$|($ERRORTAG).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\" | perl -p -e \"s/($ERRORTAG)/ error: \\$1/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6517B9861C6107BD00748B2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				655136741C69AE060000DD08 /* Task.swift in Sources */,
 				6517B9901C6107BD00748B2C /* ViewController.swift in Sources */,
 				6517B98E1C6107BD00748B2C /* AppDelegate.swift in Sources */,
 				65AEFA6E1C636C3000596B7D /* AddItemViewController.swift in Sources */,
+				655136761C69B3FB0000DD08 /* Todo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -103,11 +103,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.saveItems()
         self.tableView.reloadData()
         
-//        let lastIndexPath = NSIndexPath(forRow: self.items.count, inSection: 0)
-//        self.tableView.beginUpdates()
-//        self.tableView.reloadRowsAtIndexPaths([lastIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-//        self.items.append(withItem)
-//        self.tableView.endUpdates()
+        // TODO: Attemtping to reload specific row instead of the entire table view
+        /***
+        let lastIndexPath = NSIndexPath(forRow: self.items.count, inSection: 0)
+        self.tableView.beginUpdates()
+        self.tableView.reloadRowsAtIndexPaths([lastIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        self.items.append(withItem)
+        self.tableView.endUpdates()
+        ***/
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
