@@ -27,10 +27,10 @@ class Task: NSObject, NSCoding {
     // MARK: - NSCoding Protocols Methods
     
     @objc required init?(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as! String
+        self.name = aDecoder.decodeObjectForKey("taskName") as! String
     }
     
     @objc func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self.name, forKey: "name")
+        aCoder.encodeObject(self.name, forKey: "taskName")
     }
 }

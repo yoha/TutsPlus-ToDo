@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddItemViewControllerDelegate {
-    func controller(controller: AddItemViewController, didAddItem withItem: String)
+    func controller(controller: AddItemViewController, didAddItem withItem: Todo)
 }
 
 class AddItemViewController: UIViewController {
@@ -29,8 +29,9 @@ class AddItemViewController: UIViewController {
     }
     
     @IBAction func createButtonDidTouch(sender: UIButton) {
-        guard let validDelegate = self.delegate, let validText = self.textField.text else { return }
-        validDelegate.controller(self, didAddItem: validText)
+        guard let validDelegate = self.delegate, let validText = self.textField.text where !validText.isEmpty else { return }
+        let newTodoItem = Todo(name: validText, isTodoDone: false)
+        validDelegate.controller(self, didAddItem: newTodoItem)
     }
     
     // MARK: - UIViewController Methods

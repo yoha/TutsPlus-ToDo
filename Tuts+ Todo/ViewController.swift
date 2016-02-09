@@ -12,14 +12,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - Stored Properties
     
-    var items = [String]() {
+    var items = [Todo]() {
         didSet {
             let hasTodo = items.count > 0
             self.tableView.hidden = !hasTodo
             self.messageLabel.hidden = hasTodo
         }
     }
-    var checkedItems: [String] = []
     
     let tableViewCellIdentifier = "TableViewCellIdentifier"
     let addItemViewControllerSegue = "AddItemViewControllerSegue"
@@ -40,8 +39,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(self.tableViewCellIdentifier, forIndexPath: indexPath)
-        cell.textLabel?.text = self.items[indexPath.row]
-        cell.accessoryType = self.checkedItems.contains(self.items[indexPath.row]) ? UITableViewCellAccessoryType.Checkmark : .None
+        let todoAtIndex = self.items[indexPath.row]
+        cell.textLabel?.text = todoAtIndex.name
+        cell.accessoryType = todoAtIndex.isTodoDone ? UITableViewCellAccessoryType.Checkmark : .None
         return cell
     }
     
@@ -51,12 +51,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            if let validIndexForItemInCheckedItems = self.checkedItems.indexOf(self.items[indexPath.row]) {
-                self.checkedItems.removeAtIndex(validIndexForItemInCheckedItems)
-            }
             self.items.removeAtIndex(indexPath.row)
             self.saveItems()
-            self.saveCheckedItems()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Right)
         }
     }
@@ -65,16 +61,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         guard let validTableViewCellAtIndexPath = tableView.cellForRowAtIndexPath(indexPath) else { return }
-        if let validIndexForItemInCheckedItems = self.checkedItems.indexOf(self.items[indexPath.row]) {
-            self.checkedItems.removeAtIndex(validIndexForItemInCheckedItems)
-            validTableViewCellAtIndexPath.accessoryType = UITableViewCellAccessoryType.None
-        }
-        else {
-            self.checkedItems.append(self.items[indexPath.row])
-            validTableViewCellAtIndexPath.accessoryType = .Checkmark
-        }
+        let todoItemAtIndex = self.items[indexPath.row]
+        todoItemAtIndex.isTodoDone = !todoItemAtIndex.isTodoDone
+        validTableViewCellAtIndexPath.accessoryType = todoItemAtIndex.isTodoDone ? UITableViewCellAccessoryType.Checkmark : .None
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.saveCheckedItems()
+        self.saveItems()
     }
     
     // MARK: - UIViewController Methods
@@ -90,15 +81,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: self.tableViewCellIdentifier)
-        self.items = ["Create Personal Project w/ Swift", "Teach people to program in Swift", "Share experience in Swift"]
+        self.items.append(Todo(name: "Create Personal Project w/ Swift", isTodoDone: false))
+        self.items.append(Todo(name: "Tech People to program in Swift", isTodoDone: false))
+        self.items.append(Todo(name: "Share experience in Swift", isTodoDone: false))
         self.title = "ToDo"
         self.loadItems()
-        self.loadCheckedItems()
     }
     
     // MARK: - AddItemViewControllerDelegate Methods
     
-    func controller(controller: AddItemViewController, didAddItem withItem: String) {
+    func controller(controller: AddItemViewController, didAddItem withItem: Todo) {
         self.items.append(withItem)
         self.saveItems()
         self.tableView.reloadData()
@@ -117,26 +109,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     // MARK: - Helper Methods
     
-    private func loadItems() {
-        if let validItems = self.userDefaults.objectForKey("items") as? [String] {
-            self.items = validItems
-        }
+    private func getPathToDocumentDirectory() -> String? {
+        guard let validDocumentDirectory = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first else { return nil }
+        return validDocumentDirectory.stringByAppendingString("items")
     }
     
-    private func loadCheckedItems() {
-        if let validCheckedItems = self.userDefaults.objectForKey("checkedItems") as? [String] {
-            self.checkedItems = validCheckedItems
-        }
+    private func loadItems() {
+        guard let validDocumentDirectory = self.getPathToDocumentDirectory() else { return }
+        guard let todoItems = NSKeyedUnarchiver.unarchiveObjectWithFile(validDocumentDirectory) as? [Todo] else { return }
+        self.items = todoItems
     }
+    
     
     private func saveItems() {
-        self.userDefaults.setObject(self.items, forKey: "items")
-        self.userDefaults.synchronize()
-    }
-    
-    private func saveCheckedItems() {
-        self.userDefaults.setObject(self.checkedItems, forKey: "checkedItems")
-        self.userDefaults.synchronize()
+        guard let validDocumentDirectory = self.getPathToDocumentDirectory() else { return }
+        NSKeyedArchiver.archiveRootObject(self.items, toFile: validDocumentDirectory) ? print("saved successfully") : print("Failed to save")
     }
 }
 
