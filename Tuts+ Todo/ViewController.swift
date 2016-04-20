@@ -91,18 +91,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - AddItemViewControllerDelegate Methods
     
     func controller(controller: AddItemViewController, didAddItem withItem: Todo) {
+        // Reload specific row instead of the entire table view (self.reloadData())
+        self.tableView.beginUpdates()
+        let lastIndexPath = NSIndexPath(forRow: self.items.count - 1, inSection: 0)
+        self.tableView.insertRowsAtIndexPaths([lastIndexPath], withRowAnimation: UITableViewRowAnimation.Bottom)
         self.items.append(withItem)
         self.saveItems()
-        self.tableView.reloadData()
-        
-        // TODO: Attemtping to reload specific row instead of the entire table view
-        /***
-        let lastIndexPath = NSIndexPath(forRow: self.items.count, inSection: 0)
-        self.tableView.beginUpdates()
         self.tableView.reloadRowsAtIndexPaths([lastIndexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-        self.items.append(withItem)
         self.tableView.endUpdates()
-        ***/
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }
